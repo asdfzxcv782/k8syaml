@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: old-s3
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: old-s3
+  template:
+    metadata:
+      labels:
+        run: old-s3
+    spec:
+      containers:
+       - image: asia.gcr.io/ushow-project/s3-old-node:v2
+         imagePullPolicy: IfNotPresent
+         name: web
+         volumeMounts:
+         - mountPath: /workspace/config
+           name: foo
+           readOnly: true
+         ports:
+         - containerPort: 9697
+           protocol: TCP
+         livenessProbe:
+          httpGet:
+            path: /
+            port: 9697
+            httpHeaders:
+             - name: Authorization
+               value: Basic dXNob3c6dnNob3cyMzUxNzAw
+      volumes:
+      - name: foo
+        secret:
+          defaultMode: 420
+          secretName: s3-login-config     

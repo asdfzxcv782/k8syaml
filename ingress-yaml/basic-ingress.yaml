@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: basic-ingress
+  #annotations:
+   # kubernetes.io/ingress.class: nginx
+   # nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - host: blog.win666.in
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+  - host: s3.win666.in
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+  - http:
+      paths:
+      - path: /line
+        backend:
+           serviceName: linebot
+           servicePort: 8080
+      - path: /test2
+        backend:
+          serviceName: web2          
+          servicePort: 8080
+      - path: /test1
+        backend:
+           serviceName: web
+           servicePort: 8080

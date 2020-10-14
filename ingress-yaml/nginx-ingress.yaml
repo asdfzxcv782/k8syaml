@@ -1,0 +1,19 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: ingress
+    ingress.gcp.kubernetes.io/pre-shared-cert: blog-win666,star-ushow777,win666-cert
+spec:
+  rules:
+  - host: gcp.u-show777.com
+    http:
+      paths:
+      - backend:
+          serviceName: old-s3
+          servicePort: 9697
+  backend:
+    serviceName: "nginx"
+    servicePort: 80

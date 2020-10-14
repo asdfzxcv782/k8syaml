@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: old-s3 
+  namespace: default
+spec:
+  ports:
+  - port: 9697
+    protocol: TCP
+    targetPort: 9697
+  selector:
+    run: old-s3
+  type: NodePort

@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: s3
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      run: s3
+  template:
+    metadata:
+      labels:
+        run: s3
+    spec:
+      containers:
+       - image: asia.gcr.io/ushow-project/s3-node:v2
+         imagePullPolicy: IfNotPresent
+         name: web
+         volumeMounts:
+         - mountPath: /workspace/config
+           name: foo
+           readOnly: true
+         ports:
+         - containerPort: 9696
+           protocol: TCP
+      volumes:
+      - name: foo
+        secret:
+          defaultMode: 420
+          secretName: s3-login-config     
